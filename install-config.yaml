@@ -1,0 +1,34 @@
+apiVersion: v1
+baseDomain: example.com
+compute:
+- hyperthreading: Enabled
+  name: worker
+  replicas: 0
+controlPlane:
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+metadata:
+  name: <cluster_name>
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  vsphere:
+    vcenter: vcenter.example.local
+    folder: "/Datacenter/vm/folder-name"
+    username: administrator@example.local
+    password: ""
+    datacenter: Datacenter
+    defaultDatastore: vsanDatastore
+  fips: false
+pullSecret: ''
+sshKey: ''
+additionalTrustedBundle: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
