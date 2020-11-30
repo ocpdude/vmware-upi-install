@@ -10,5 +10,5 @@ spec:
     storage: 100Gi
   nfs:
     path: /registry
-    server: 172.16.1.5
+    server: <SERVER_NAME_OR_IP>
   persistentVolumeReclaimPolicy: Retain
