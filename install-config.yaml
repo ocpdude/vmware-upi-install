@@ -19,13 +19,29 @@ networking:
   - 172.30.0.0/16
 platform:
   vsphere:
-    vcenter: vcenter.example.local
-    folder: "/Datacenter/vm/folder-name"
-    username: administrator@example.local
-    password: ""
-    datacenter: Datacenter
-    defaultDatastore: vsanDatastore
-  fips: false
+    failureDomains:
+      - name: Testing
+        region: one
+        server: vcenter.ncgr.sa
+        topology:
+          computeCluster: "<datacenter/host/cluster"
+          datacenter: datacenter
+          datastore: "/datacenter/datastore/datastore" 
+          networks:
+          - VM_Network_name
+          resourcePool: "/datacenter/host/cluster/Resources/resourcePool"
+          folder: "/datacenter_name/vm/folder_name/subfolder_name"
+        zone: default_zone_name
+    vcenters:
+      - datacenters:
+        - DC1
+        password: Password@!
+        port: 443
+        server: vcenter.ncgr.sa
+        user: administrator@vsphere.local
+    diskType: thin
+    apiVIP: 192.168.0.10
+    ingressVIP: 192.168.0.11
 pullSecret: ''
 sshKey: ''
 additionalTrustedBundle: |
