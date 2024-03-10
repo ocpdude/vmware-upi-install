@@ -1,11 +1,7 @@
-# Install OpenShift 4.6.1 on VMware 6.7U3
+# Install OpenShift 4.146.1 on VMware 6.7U3
 
 OpenShift on VMware
 
-Demo videos:
-1. Install OpenShift 4.6.1 via UPI on VMware https://youtu.be/6TvyHBdHhes
-2. OCP VMware Internal Registry Setup https://youtu.be/_60RLgkHVMw
-3. Chrony NTP on OpenShift https://youtu.be/_60RLgkHVMw
 
 Access the downloads from https://cloud.redhat.com
 See the documentation at https://docs.openshift.com/container-platform/4.6/installing/installing_vsphere/installing-vsphere.html
@@ -22,34 +18,16 @@ See the documentation at https://docs.openshift.com/container-platform/4.6/insta
     `mv INSTALL/openshift/99_openshift-cluster-api_worker-machineset-0.yaml .`
 5. Remove the node manifests since we'll be building them manually \
     `rm -f INSTALL/openshift/99_openshift-cluster-api_master-machines-*.yaml INSTALL/openshift/99_openshift-cluster-api_worker-machineset-*.yaml`
-6. Set mastersSchedulable to false \
+6. Set mastersSchedulable to false if not \
     `sed -i -e 's/true/false/g' INSTALL/manifests/cluster-scheduler-02-config.yml`
-
-7. Adding Windows Nodes (optional)
-    1. Copy the network config to a new manifest \
-        ` cp manifests/cluster-network-02-config.yml manifests/cluster-network-03-config.yml `
-    2. Update the `apiVersion` & `spec` to support HNS
-        ```
-        apiVersion: operator.openshift.io/v1
-        ...
-        ...
-        spec​:​
-          defaultNetwork:    
-            type: OVNKubernetes
-            ovnKubernetesConfig:
-              hybridOverlayConfig:
-                hybridClusterNetwork:
-                - cidr: 10.132.0.0/14
-                  hostPrefix: 23
-        ```
-8. Create ignition files \
+7. Create ignition files \
     `openshift-install create ignition-configs --dir=INSTALL`
-9. Encode the master and worker ignition files \
+8. Encode the master and worker ignition files \
     `base64 -i INSTALL/master.ign -o INSTALL/master.64 ; base64 -i INSTALL/worker.ign -o INSTALL/worker.64`
-10. Copy your bootstrap.ign file to your webserver... (you're on your own here) \
+9. Copy your bootstrap.ign file to your webserver... (you're on your own here) \
     `scp INSTALL/bootstrap.ign $server:/path/to/www`
     tip: Ensure you have global read permissons on that file (chmod +r bootsrap.ign)
-11. Create a boot-append.ign file and encode it 
+10. Create a boot-append.ign file and encode it 
     ```
     {
     "ignition": {
