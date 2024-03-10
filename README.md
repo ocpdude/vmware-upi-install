@@ -1,4 +1,4 @@
-# Install OpenShift 4.146.1 on VMware 6.7U3
+# Install OpenShift 4.14.1 on VMware 6.7U3
 
 OpenShift on VMware
 
